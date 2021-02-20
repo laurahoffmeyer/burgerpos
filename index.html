@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger+</title>
+    <meta property="og:title" content="Burger+">
+    <meta property="og:description" content="My Burger+ Point of Sale Application Using JS. Junior Software Engineer Portfolio of Laura Hoffmeyer.">
+    <meta property="og:image" content="./img/ogimg.jpg">
+    <meta property="og:url" content="http://laurahoffmeyer.com/projects/burgerpos/">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://kit.fontawesome.com/7773ee3547.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./img/logo.png" />
+        </div>
+        <ul class="desktop-menu">
+            <li onclick="showBurgers(event)">
+                <i class="fas fa-hamburger"></i>
+                <h3>Burgers</h3>
+            </li>
+            <li onclick="showSides(event)">
+                <i class="far fa-dot-circle"></i>
+                <h3>Sides</h3>
+            </li>
+            <li onclick="showShakes(event)">
+                <i class="fas fa-blender"></i>
+                <h3>Shakes</h3>
+            </li>
+            <li onclick="showCart(event)" class="desktop-cart">
+                <h3><i class="fas fa-shopping-cart"></i></h3>
+            </li>
+        </ul>
+        <div class="mobile-icon" onclick="toggleMenu(event)">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+    <div id="mobile-menu">
+        <ul class="menu">
+            <li onclick="showBurgers(event)">
+                <i class="fas fa-hamburger"></i>
+                <h5>Burgers</h5>
+            </li>
+            <li onclick="showSides(event)">
+                <i class="far fa-dot-circle"></i>
+                <h5>Sides</h5>
+            </li>
+            <li onclick="showShakes(event)">
+                <i class="fas fa-blender"></i>
+                <h5>Shakes</h5>
+            </li>
+            <li onclick="showCart(event)" class="red">
+                <i class="fas fa-shopping-cart"></i>
+                <h5>Checkout</h5>
+            </li>
+        </ul>
+    </div> 
+    
+    <div class="checkout" id="cart">
+        <button class="red add-more" onclick="addMoreItems(event)">Add More Items</button>
+        <h2>Your Cart</h2>
+        <div class="hide" id="empty">Your Cart is Empty.</div>
+        <div id="displayCartItems"></div>
+        <div id="totals">
+            <div id="subTotal"></div>
+            <div id="tax"></div>
+            <div id="total"></div>
+            <button class="hide" id="payNowBtn" onclick="payNow(event)">Proceed To Payment</button>
+        </div>
+    </div>
+    <div class="checkout hide" id="payment">
+        <button class="red add-more" onclick="addMoreItems(event)">Add More Items</button>
+        <div id="paymentTotal"></div>
+        <h2>Choose Your Payment Method</h2>
+        <div>
+            <button class="btn" onclick="payCash(event)"><i class="fas fa-dollar-sign"></i> Cash</button>
+            <button class="btn" onclick="payCard(event)"><i class="fas fa-credit-card"></i> Card</button>
+        </div>
+        <div class="hide" id="cash">
+            <div class="container">
+                <input required id="cashAmount" name="cashAmount" type="number" placeholder="How Much Cash?" />
+                <div class="hide" id="lowCash"><h5>Please Pay The Full Amount</h5></div>
+                <button onclick="getReceipt(event)">Pay Now</button>
+            </div>
+        </div>
+        <div class="hide" id="card">
+            <div class="container">
+                <input required id="ccNumber" name="ccNumber" type="number" placeholder="Card Number" />
+                <input required id="expDate" name="expDate" type="text" placeholder="Exp [mm/yyyy]" />
+                <input required id="csv" name="csv" type="number" placeholder="CSV" />
+                <button onclick="getReceipt(event)">Pay Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="hide" id="receipt">
+        <h2>Your Receipt</h2>
+        <img src="./img/logo.png" />
+        <div id="rItems"></div>
+        <div class="rtotalcontainer">
+            <div id="rTax"></div>
+            <div id="rTotal"></div>
+            <div id="paidWith"></div>
+            <div id="change"></div>
+        </div>
+        <h5>Thank You!</h5>
+        <a href="index.html"><button class="red btn">Start New Order</button></a>
+    </div>
+
+    <main>
+        <div class="item-list" id="burgers">
+            <h2 class="break">Burgers</h2>
+            <div id="001">
+                <h3 class="name">Classic Chicken</h3>
+                <img src="./img/chickenclassic.png" alt="">
+                <h6 class="category">Burgers</h6>
+                <p class="description">Description</p>
+                <h4 class="price">9.50</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="002">
+                <h3 class="name">Chicken Double</h3>
+                <img src="./img/chickendouble.png" alt="">
+                <h6 class="category">Burgers</h6>
+                <p class="description">Description</p>
+                <h4 class="price">10.20</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="003">
+                <h3 class="name">Classic Deluxe</h3>
+                <img src="./img/classicdelux.png" alt="">
+                <h6 class="category">Burgers</h6>
+                <p class="description">Description</p>
+                <h4 class="price">8.50</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="004">
+                <h3 class="name">The Endless</h3>
+                <img src="./img/endless.png" alt="">
+                <h6 class="category">Burgers</h6>
+                <p class="description">Description</p>
+                <h4 class="price">12.00</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="005">
+                <h3 class="name">The Heart Attack</h3>
+                <img src="./img/heartattack.png" alt="">
+                <h6 class="category">Burgers</h6>
+                <p class="description">Description</p>
+                <h4 class="price">11.50</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="006">
+                <h3 class="name">Poor Life Choices</h3>
+                <img src="./img/badlifechoices.png" alt="">
+                <h6 class="category">Burgers</h6>
+                <p class="description">Description</p>
+                <h4 class="price">2.00</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="007">
+                <h3 class="name">The Real Classy</h3>
+                <img src="./img/realclassy.png" alt="">
+                <h6 class="category">Burgers</h6>
+                <p class="description">Description</p>
+                <h4 class="price">9.50</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="008">
+                <h3 class="name">The Quad</h3>
+                <img src="./img/thequad.png" alt="">
+                <h6 class="category">Burgers</h6>
+                <p class="description">Description</p>
+                <h4 class="price">10.50</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+        </div>
+        <div class="item-list" id="sides">
+            <h2 class="break">Sides</h2>
+            <div id="009">
+                <h3 class="name">Fries</h3>
+                <img src="./img/fries.png" alt="">
+                <h6 class="category">Sides</h6>
+                <p class="description">Description</p>
+                <h4 class="price">9.50</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="0010">
+                <h3 class="name">Onion Rings</h3>
+                <img src="./img/onionrings.png" alt="">
+                <h6 class="category">Sides</h6>
+                <p class="description">Description</p>
+                <h4 class="price">10.20</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="0011">
+                <h3 class="name">Cheese Curds</h3>
+                <img src="./img/cheesecurds.png" alt="">
+                <h6 class="category">Sides</h6>
+                <p class="description">Description</p>
+                <h4 class="price">8.50</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+        </div>
+        <div class="item-list" id="shakes">
+            <h2 class="break">Shakes</h2>
+            <div id="0012">
+                <h3 class="name">Strawberry Shake</h3>
+                <img src="./img/strawberrymilkshake.png" alt="">
+                <h6 class="category">Shakes</h6>
+                <p class="description">Description</p>
+                <h4 class="price">9.50</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="0013">
+                <h3 class="name">Chocolate Shake</h3>
+                <img src="./img/chocolatemilkshake.png" alt="">
+                <h6 class="category">Shakes</h6>
+                <p class="description">Description</p>
+                <h4 class="price">10.20</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+            <div id="0014">
+                <h3 class="name">Blueberries Shake</h3>
+                <img src="./img/berrymilkshake.png" alt="">
+                <h6 class="category">Shakes</h6>
+                <p class="description">Description</p>
+                <h4 class="price">8.50</h4>
+                <button class="red addtocart">Add to Cart</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>Made with ♥ in Auburn Hills, MI by Laura Hoffmeyer</p>
+    </footer>
+    <script src="./js/script.js"></script>
+</body>
+</html>
